@@ -1,5 +1,6 @@
 import re
 
+
 def parse_text(text: str) -> tuple[dict[str, int], list[int]]:
     sentences = re.split(r'[.!?]\s', text)
     sentences_stats = []
