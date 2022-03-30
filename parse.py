@@ -2,7 +2,7 @@ import re
 
 
 def parse_text(text: str) -> tuple[dict[str, int], list[int]]:
-    sentences = re.split(r'[.!?]\s', text)
+    sentences = re.split(r'\.*[.!?]\s', text)
     sentences_stats = []
     words_stats = {}
     # re.findall(r'\w+[\.,\,\-]\w+|\w+', sentences) <- to find words within sentences
