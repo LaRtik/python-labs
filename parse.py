@@ -1,9 +1,11 @@
 import re
 
+
 def mr_fixed(text: str) -> str:
     text = text.replace("Mrs.", "Mrs")
     text = text.replace("Mr.", "Mr")
     return text
+
 
 def parse_text(text: str) -> tuple[dict[str, int], list[int]]:
     sentences = re.split(r'\.*[.!?]\s(?=[A-Z])?', mr_fixed(text))
