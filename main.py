@@ -1,16 +1,17 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+import input
+import parse
+import math_stats
 
 
-# Press the green button in the gutter to run the script.
+def main():
+    text = input.text_input()
+    word_stats, sentences_stats = parse.parse_text(text)
+    print(word_stats)
+    print(f"Average words in sentence: {math_stats.average_words(sentences_stats)}")
+    print(f"Median words in sentence: {math_stats.median_words(sentences_stats)}")
+    n, k = input.nk_inpt()
+    print(f"Counted top-{k} {n}-gramms: {math_stats.count_ngramms(word_stats, n, k)}")
+
+
 if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    main()
