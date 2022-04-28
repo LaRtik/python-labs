@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 import inspect
 
 
-class Serializer(ABC):
+class SimplePickler(ABC):
     def dumps(self, obj: object):
         if inspect.isclass(obj):
             pass

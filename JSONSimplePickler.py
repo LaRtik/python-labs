@@ -1,6 +1,6 @@
-import SImplePickler
+import SimplePickler
 
 
-class JSONSerializer(Serializer):
+class JSONSerializer(SimplePickler):
     def format(self):
         pass
