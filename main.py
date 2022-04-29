@@ -1,6 +1,9 @@
 import inspect
 import pickle
 import json
+from pprint import pprint
+
+import JSONSimplePickler
 from JSONSimplePickler import JSONSerializer
 
 
@@ -52,15 +55,9 @@ def test_primitives():
 
 
 if __name__ == '__main__':
-
-    test_list = [1, True, 3.42, "hello"]
-    test_set = tuple(test_list)
     test = {
         "name": "blablalba",
         "surname:": "blaz",
-        "dict": (1, 2, 3),
-        "jojo": test_set,
-        test_set: "hello"
+        "dict": (1, 2, 3)
     }
-    formatted = JSONSerializer.dumps(test)
-    print(JSONSerializer.loads(formatted))
+    print(JSONSerializer.dumps(test_primitives))

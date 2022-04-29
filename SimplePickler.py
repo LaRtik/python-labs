@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 import inspect
+from types import FunctionType
 
 
 class SimplePickler(ABC):
@@ -13,6 +14,16 @@ class SimplePickler(ABC):
             pass
         elif inspect.ismethod(obj):
             pass
+        elif inspect.isfunction(obj):
+            fun_members = dict(inspect.getmembers(obj))
+            fun_code_attr = dict(inspect.getmembers(fun_members["__code__"]))
+            fun_globals = dict(fun_members["__globals__"])
+            fun_name = fun_members["__name__"]
+            fun_defaults = fun_members["__defaults__"]
+            obj_dict = {
+                "obj_type": type(obj).__name__,
+                "obj_value": cls.dumps(list([fun_code_attr, fun_name, fun_defaults]))
+            }
         elif isinstance(obj, cls.primitive_types):
             obj_dict = {
                 "obj_type": type(obj).__name__,
