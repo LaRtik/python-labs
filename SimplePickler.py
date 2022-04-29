@@ -19,12 +19,12 @@ class SimplePickler(ABC):
                 "obj_value": obj
             }
         elif isinstance(obj, cls.non_primitive_types):
-            if isinstance(obj, dict):
-                obj = list(tuple([key, value]) for key, value in obj.items())
             obj_dict = {
                 "obj_type": type(obj).__name__,
-                "obj_value": tuple(cls.dumps(item) for item in obj)
             }
+            if isinstance(obj, dict):
+                obj = list(tuple([key, value]) for key, value in obj.items())
+            obj_dict.update({"obj_value": tuple(cls.dumps(item) for item in obj)})
         return cls.format(obj_dict)
 
     @abstractmethod

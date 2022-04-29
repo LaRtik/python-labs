@@ -59,7 +59,8 @@ if __name__ == '__main__':
         "name": "blablalba",
         "surname:": "blaz",
         "dict": (1, 2, 3),
-        "jojo": test_set
+        "jojo": test_set,
+        test_set: "hello"
     }
     formatted = JSONSerializer.dumps(test)
     print(JSONSerializer.loads(formatted))
