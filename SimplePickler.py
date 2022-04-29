@@ -4,7 +4,7 @@ import inspect
 
 class SimplePickler(ABC):
     primitive_types = (int, float, str, bytes, bool)
-    non_primitive_types = (list, set, frozenset, tuple)
+    non_primitive_types = (list, set, frozenset, tuple, dict)
 
     @classmethod
     def dumps(cls, obj: object):
@@ -19,6 +19,8 @@ class SimplePickler(ABC):
                 "obj_value": obj
             }
         elif isinstance(obj, cls.non_primitive_types):
+            if isinstance(obj, dict):
+                obj = list(tuple([key, value]) for key, value in obj.items())
             obj_dict = {
                 "obj_type": type(obj).__name__,
                 "obj_value": tuple(cls.dumps(item) for item in obj)

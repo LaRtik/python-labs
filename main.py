@@ -52,7 +52,14 @@ def test_primitives():
 
 
 if __name__ == '__main__':
+
     test_list = [1, True, 3.42, "hello"]
     test_set = tuple(test_list)
-    formatted = JSONSerializer.dumps(test_set)
+    test = {
+        "name": "blablalba",
+        "surname:": "blaz",
+        "dict": (1, 2, 3),
+        "jojo": test_set
+    }
+    formatted = JSONSerializer.dumps(test)
     print(JSONSerializer.loads(formatted))
