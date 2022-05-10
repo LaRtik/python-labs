@@ -19,6 +19,18 @@ def hello():
 test_global = 42
 
 
+class TestClass:
+    name = "Volodya"
+    surname = "Badboy"
+    age = 66
+
+    def say_my_name(self):
+        print(f"My name is {self.name} {self.surname}")
+
+    def random_number(self):
+        print(test_global + self.age)
+
+
 def test_prim():
     test = {
         "name": "blablalba",
@@ -65,8 +77,7 @@ def sums(a, b):
 def test_globals(a, b, c):
     return math.sin(sums(a, b) * c)
 
-
-if __name__ == '__main__':
+def test_func():
     test = {
         "name": "blablalba",
         "surname:": "blaz",
@@ -75,3 +86,9 @@ if __name__ == '__main__':
     formatted = JSONSerializer.dumps(test_globals)
     print(test_globals(1, 2, 3))
     print(JSONSerializer.loads(formatted)(1, 2, 3))
+
+
+if __name__ == '__main__':
+    formatted = JSONSerializer.dumps(TestClass)
+    loaded = JSONSerializer.loads(formatted)
+    loaded.random_number(loaded)

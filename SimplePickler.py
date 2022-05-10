@@ -20,47 +20,43 @@ class SimplePickler(ABC):
 
     @classmethod
     def dumps(cls, obj):
-        obj_dict = dict()
-        if inspect.isclass(obj):
-            pass
+        obj_dict = {
+            "obj_type": type(obj).__name__
+        }
+        if inspect.isclass(obj):  # is class type
+            ignored_fields = ("__dict__", "__weakref__")
+            members = {key: value for key, value in dict(obj.__dict__).items() if key not in ignored_fields}
+            obj_dict["obj_value"] = cls.dumps(members)
+
         elif inspect.ismethod(obj):
             pass
+
         elif inspect.ismodule(obj):
-            obj_dict = {
-                "obj_type": type(obj).__name__,
-                "obj_value": obj.__name__
-            }
+            obj_dict["obj_value"] = obj.__name__
+
         elif inspect.iscode(obj):
-            obj_dict = {
-                "obj_type": type(obj).__name__,
-                "obj_value": cls.dumps((cls.get_dict_code(obj)))
-            }
+            obj_dict["obj_value"] = cls.dumps((cls.get_dict_code(obj)))
+
         elif inspect.isfunction(obj):
             fun_members = dict(inspect.getmembers(obj))
             fun_code_attr = cls.get_code_attr(dict(inspect.getmembers(fun_members["__code__"])))
             fun_name = fun_members["__name__"]
             fun_globals = {key: value for key, value in fun_members["__globals__"].items() if not inspect.isclass(
                 value) and not inspect.ismethod(value) and not inspect.isfunction(value)}
-            for glob in fun_code_attr.co_names:
+            for glob in fun_code_attr.co_names:  # only add globals that are used in that func
                 if glob in fun_members["__globals__"]:
                     fun_globals.update({glob: fun_members["__globals__"][glob]})
             fun_defaults = fun_members["__defaults__"]
-            obj_dict = {
-                "obj_type": type(obj).__name__,
-                "obj_value": cls.dumps(list([fun_code_attr, fun_globals, fun_name, fun_defaults, obj.__closure__]))
-            }
+            obj_dict["obj_value"] = cls.dumps(list([fun_code_attr, fun_globals, fun_name, fun_defaults, obj.__closure__]))
+
         elif isinstance(obj, cls.primitive_types):
-            obj_dict = {
-                "obj_type": type(obj).__name__,
-                "obj_value": obj
-            }
+            obj_dict["obj_value"] = obj
+
         elif isinstance(obj, cls.non_primitive_types):
-            obj_dict = {
-                "obj_type": type(obj).__name__,
-            }
             if isinstance(obj, dict):
                 obj = list(tuple([key, value]) for key, value in obj.items())
-            obj_dict.update({"obj_value": tuple(cls.dumps(item) for item in obj)})
+            obj_dict["obj_value"] = tuple(cls.dumps(item) for item in obj)
+
         return cls.format(obj_dict)
 
     @abstractmethod
@@ -79,24 +75,28 @@ class SimplePickler(ABC):
             value = obj_dict["obj_type"]
         else:
             return None
-        if value in (item.__name__ for item in cls.primitive_types):
+
+        if value in (item.__name__ for item in cls.primitive_types):  # if object is a primitive type
             for typ in cls.primitive_types:  # if primitive
                 if value == typ.__name__:
                     return typ(obj_dict["obj_value"])
 
-        elif value in (item.__name__ for item in cls.non_primitive_types):
+        elif value in (item.__name__ for item in cls.non_primitive_types):  # if object is not a primitive_type
             for typ in cls.non_primitive_types:  # if non primitive
                 if value == typ.__name__:
                     return typ(cls.loads(item) for item in obj_dict["obj_value"])
 
-        elif value == "code":
+        elif value == "code":  # if code type
             code_dict = cls.loads(obj_dict["obj_value"])
             return CodeType(*[code_dict[arg] for arg in cls.code_args])
 
-        elif value == "module":
+        elif value == "module":  # if module type
             return __import__(obj_dict["obj_value"])
 
-        elif value == "function":
-            malist = obj_dict["obj_value"]
+        elif value == "function":  # is function type
             arguments = cls.loads(obj_dict["obj_value"])
             return FunctionType(arguments[0], arguments[1], arguments[2], arguments[3], arguments[4])
+
+        elif value == "type":  # is class type
+            members = cls.loads(obj_dict["obj_value"])
+            return type("Dumped Class", (), members)
