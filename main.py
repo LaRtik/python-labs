@@ -1,4 +1,5 @@
 import inspect
+import math
 import pickle
 import json
 from pprint import pprint
@@ -14,7 +15,10 @@ def dump(obj: object):
 def hello():
     print("Hello World")
 
+
 test_global = 42
+
+
 def test_prim():
     test = {
         "name": "blablalba",
@@ -54,11 +58,20 @@ def test_primitives():
     print(unformatted)
 
 
+def sums(a, b):
+    return a + b
+
+
+def test_globals(a, b, c):
+    return math.sin(sums(a, b) * c)
+
+
 if __name__ == '__main__':
     test = {
         "name": "blablalba",
         "surname:": "blaz",
         "dict": (1, 2, 3)
     }
-    formatted = JSONSerializer.dumps(hello)
-    JSONSerializer.loads(formatted)()
+    formatted = JSONSerializer.dumps(test_globals)
+    print(test_globals(1, 2, 3))
+    print(JSONSerializer.loads(formatted)(1, 2, 3))
