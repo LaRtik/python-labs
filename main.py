@@ -14,7 +14,7 @@ def dump(obj: object):
 def hello():
     print("Hello World")
 
-
+test_global = 42
 def test_prim():
     test = {
         "name": "blablalba",
@@ -60,4 +60,5 @@ if __name__ == '__main__':
         "surname:": "blaz",
         "dict": (1, 2, 3)
     }
-    print(JSONSerializer.dumps(test_primitives))
+    formatted = JSONSerializer.dumps(hello)
+    JSONSerializer.loads(formatted)()
