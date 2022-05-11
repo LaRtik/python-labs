@@ -2,12 +2,9 @@ import inspect
 import math
 import pickle
 import json
-from pprint import pprint
 
-import JSONSimplePickler
-from JSONSimplePickler import JSONSerializer
-from TOMLSimplePickler import TOMLSerializer
-from YAMLSimplePickler import YAMLSerializer
+from Serializers.JSONSimplePickler import JSONSerializer
+from Serializers.YAMLSimplePickler import YAMLSerializer
 
 def dump(obj: object):
     return inspect.getmembers(obj)
