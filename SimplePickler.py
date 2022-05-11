@@ -20,24 +20,34 @@ class SimplePickler(ABC):
 
     @classmethod
     def dumps(cls, obj):
+        tempo = cls.pre_dumps(obj)
+        return cls.format(cls.pre_dumps(obj))
+
+    @classmethod
+    def dump(cls, fp, obj):
+
+        return fp.write(cls.dumps(obj))
+
+    @classmethod
+    def pre_dumps(cls, obj):
         obj_dict = {
             "obj_type": type(obj).__name__
         }
         if inspect.isclass(obj):  # is class type
             ignored_fields = ("__dict__", "__weakref__")
             members = {key: value for key, value in dict(obj.__dict__).items() if key not in ignored_fields}
-            obj_dict["obj_value"] = cls.dumps(members)
+            obj_dict["obj_value"] = cls.pre_dumps(members)
 
-        elif inspect.ismethod(obj):
+        elif inspect.ismethod(obj):  # is method type
             pass
 
-        elif inspect.ismodule(obj):
+        elif inspect.ismodule(obj):  # is module type
             obj_dict["obj_value"] = obj.__name__
 
-        elif inspect.iscode(obj):
-            obj_dict["obj_value"] = cls.dumps((cls.get_dict_code(obj)))
+        elif inspect.iscode(obj):  # is code type
+            obj_dict["obj_value"] = cls.pre_dumps((cls.get_dict_code(obj)))
 
-        elif inspect.isfunction(obj):
+        elif inspect.isfunction(obj):  # is function type
             fun_members = dict(inspect.getmembers(obj))
             fun_code_attr = cls.get_code_attr(dict(inspect.getmembers(fun_members["__code__"])))
             fun_name = fun_members["__name__"]
@@ -47,17 +57,19 @@ class SimplePickler(ABC):
                 if glob in fun_members["__globals__"]:
                     fun_globals.update({glob: fun_members["__globals__"][glob]})
             fun_defaults = fun_members["__defaults__"]
-            obj_dict["obj_value"] = cls.dumps(list([fun_code_attr, fun_globals, fun_name, fun_defaults, obj.__closure__]))
+            obj_dict["obj_value"] = cls.pre_dumps(list([fun_code_attr, fun_globals, fun_name, fun_defaults, obj.__closure__]))
 
-        elif isinstance(obj, cls.primitive_types):
+        elif isinstance(obj, cls.primitive_types):  # is primitive type
+            if obj == "formatted":
+                print("BUG HERE")
             obj_dict["obj_value"] = obj
 
-        elif isinstance(obj, cls.non_primitive_types):
+        elif isinstance(obj, cls.non_primitive_types):  # is non-primitive type
             if isinstance(obj, dict):
                 obj = list(tuple([key, value]) for key, value in obj.items())
-            obj_dict["obj_value"] = tuple(cls.dumps(item) for item in obj)
+            obj_dict["obj_value"] = tuple(cls.pre_dumps(item) for item in obj)
 
-        return cls.format(obj_dict)
+        return obj_dict
 
     @abstractmethod
     def format(self, obj_dict):
