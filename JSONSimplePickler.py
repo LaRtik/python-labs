@@ -40,7 +40,32 @@ class JSONSerializer(SimplePickler):
         else:
             return str(obj)
 
+    # @classmethod
+    # def fix_bytes(cls, obj):
+    #     if isinstance(obj, list):
+    #         for value in obj:
+    #             cls.fix_bytes(value)
+    #         return
+    #     if not isinstance(obj, dict):
+    #         return
+    #     for key, value in obj.items():
+    #         if value is "bytes":
+    #             obj["obj_value"] = int.to_bytes(obj["obj_value"], "big")
+    #         else:
+    #             cls.fix_bytes(value)
+
 
     @classmethod
-    def restore(cls, obj_dict_formatted):
-        return obj_dict_formatted
+    def restore(cls, str_obj: str):
+        replaces = {
+            "false": "False",
+            "true": "True",
+            "[": "(",
+            "]": ")",
+            "null": "None"
+        }
+        for key, value in replaces.items():
+            str_obj = str_obj.replace(key, value)
+        test = eval(str_obj)
+        # cls.fix_bytes(test)
+        return test

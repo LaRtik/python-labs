@@ -57,7 +57,8 @@ class SimplePickler(ABC):
                 if glob in fun_members["__globals__"]:
                     fun_globals.update({glob: fun_members["__globals__"][glob]})
             fun_defaults = fun_members["__defaults__"]
-            obj_dict["obj_value"] = cls.pre_dumps(list([fun_code_attr, fun_globals, fun_name, fun_defaults, obj.__closure__]))
+            obj_dict["obj_value"] = cls.pre_dumps(
+                list([fun_code_attr, fun_globals, fun_name, fun_defaults, obj.__closure__]))
 
         elif isinstance(obj, cls.primitive_types):  # is primitive type
             if obj == "formatted":
@@ -80,8 +81,14 @@ class SimplePickler(ABC):
         pass
 
     @classmethod
-    def loads(cls, obj_dict_formatted):
-        obj_dict = cls.restore(obj_dict_formatted)
+    def loads(cls, obj_str):
+        obj_dict = cls.restore(obj_str)
+        return cls.post_loads(obj_dict)
+
+    @classmethod
+    def post_loads(cls, obj_dict):
+        if not isinstance(obj_dict, dict):
+            print("HM")
         value = {}
         if obj_dict.get("obj_type"):
             value = obj_dict["obj_type"]
@@ -91,24 +98,28 @@ class SimplePickler(ABC):
         if value in (item.__name__ for item in cls.primitive_types):  # if object is a primitive type
             for typ in cls.primitive_types:  # if primitive
                 if value == typ.__name__:
+                    if value == "bytes":
+                        obj_dict["obj_value"] = obj_dict["obj_value"].to_bytes((obj_dict["obj_value"].bit_length() + 7)
+                                                                               // 8,
+                                                                               "big")
                     return typ(obj_dict["obj_value"])
 
         elif value in (item.__name__ for item in cls.non_primitive_types):  # if object is not a primitive_type
             for typ in cls.non_primitive_types:  # if non primitive
                 if value == typ.__name__:
-                    return typ(cls.loads(item) for item in obj_dict["obj_value"])
+                    return typ(cls.post_loads(item) for item in obj_dict["obj_value"])
 
         elif value == "code":  # if code type
-            code_dict = cls.loads(obj_dict["obj_value"])
+            code_dict = cls.post_loads(obj_dict["obj_value"])
             return CodeType(*[code_dict[arg] for arg in cls.code_args])
 
         elif value == "module":  # if module type
             return __import__(obj_dict["obj_value"])
 
         elif value == "function":  # is function type
-            arguments = cls.loads(obj_dict["obj_value"])
+            arguments = cls.post_loads(obj_dict["obj_value"])
             return FunctionType(arguments[0], arguments[1], arguments[2], arguments[3], arguments[4])
 
         elif value == "type":  # is class type
-            members = cls.loads(obj_dict["obj_value"])
+            members = cls.post_loads(obj_dict["obj_value"])
             return type("Dumped Class", (), members)

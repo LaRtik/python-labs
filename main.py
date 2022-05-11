@@ -66,7 +66,7 @@ def test_primitives():
     c = True
     d = "hello wrotebal"
     formatted = JSONSerializer.pre_dumps(d)
-    unformatted = JSONSerializer.loads(formatted)
+    unformatted = JSONSerializer.post_loads(formatted)
     print(unformatted)
 
 
@@ -86,12 +86,12 @@ def test_func():
     }
     formatted = JSONSerializer.pre_dumps(test_globals)
     print(test_globals(1, 2, 3))
-    print(JSONSerializer.loads(formatted)(1, 2, 3))
+    print(JSONSerializer.post_loads(formatted)(1, 2, 3))
 
 
 if __name__ == '__main__':
     formatted = JSONSerializer.dumps(test_prim)
     file = open("formatted.json", 'w')
     print(JSONSerializer.dump(file, test_prim))
-    # loaded = JSONSerializer.loads(formatted)
-    print()
+    loaded = JSONSerializer.loads(formatted)
+    loaded()
