@@ -6,7 +6,8 @@ from pprint import pprint
 
 import JSONSimplePickler
 from JSONSimplePickler import JSONSerializer
-
+from TOMLSimplePickler import TOMLSerializer
+from YAMLSimplePickler import YAMLSerializer
 
 def dump(obj: object):
     return inspect.getmembers(obj)
@@ -90,8 +91,15 @@ def test_func():
 
 
 if __name__ == '__main__':
-    formatted = JSONSerializer.dumps(test_prim)
-    #file = open("formatted.json", 'w')
-    #print(JSONSerializer.dump(file, test_prim))
-    loaded = JSONSerializer.loads(formatted)
-    loaded()
+    # formatted = JSONSerializer.dumps(test_prim)
+    # #file = open("formatted.json", 'w')
+    # #print(JSONSerializer.dump(file, test_prim))
+    # loaded = JSONSerializer.loads(formatted)
+
+    # formattedTOML = TOMLSerializer.dumps(test_prim)
+    # loadedTOML = TOMLSerializer.loads(formattedTOML)
+    # loadedTOML()
+
+    formattedYAML = YAMLSerializer.dumps(test_prim)
+    loadedYAML = YAMLSerializer.loads(formattedYAML)
+    loadedYAML()

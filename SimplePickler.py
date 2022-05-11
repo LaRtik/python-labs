@@ -101,7 +101,7 @@ class SimplePickler(ABC):
         if value in (item.__name__ for item in cls.primitive_types):  # if object is a primitive type
             for typ in cls.primitive_types:  # if primitive
                 if value == typ.__name__:
-                    if value == "bytes":
+                    if value == "bytes" and isinstance(obj_dict["obj_value"], int):
                         obj_dict["obj_value"] = obj_dict["obj_value"].to_bytes((obj_dict["obj_value"].bit_length()  +
                                                                                 7) // 8, "big")
                     return typ(obj_dict["obj_value"])
