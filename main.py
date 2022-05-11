@@ -91,7 +91,7 @@ def test_func():
 
 if __name__ == '__main__':
     formatted = JSONSerializer.dumps(test_prim)
-    file = open("formatted.json", 'w')
-    print(JSONSerializer.dump(file, test_prim))
+    #file = open("formatted.json", 'w')
+    #print(JSONSerializer.dump(file, test_prim))
     loaded = JSONSerializer.loads(formatted)
     loaded()

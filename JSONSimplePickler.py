@@ -8,6 +8,7 @@ class JSONSerializer(SimplePickler):
 
     @classmethod
     def format(cls, obj):
+        #return obj
         result = ""
         if isinstance(obj, dict):
             result += "{"
@@ -56,7 +57,8 @@ class JSONSerializer(SimplePickler):
 
 
     @classmethod
-    def restore(cls, str_obj: str):
+    def restore(cls, str_obj):
+        #return str_obj
         replaces = {
             "false": "False",
             "true": "True",

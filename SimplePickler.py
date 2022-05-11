@@ -70,6 +70,9 @@ class SimplePickler(ABC):
                 obj = list(tuple([key, value]) for key, value in obj.items())
             obj_dict["obj_value"] = tuple(cls.pre_dumps(item) for item in obj)
 
+        else:
+            return {}
+
         return obj_dict
 
     @abstractmethod
@@ -88,7 +91,7 @@ class SimplePickler(ABC):
     @classmethod
     def post_loads(cls, obj_dict):
         if not isinstance(obj_dict, dict):
-            print("HM")
+            return None
         value = {}
         if obj_dict.get("obj_type"):
             value = obj_dict["obj_type"]
@@ -99,15 +102,19 @@ class SimplePickler(ABC):
             for typ in cls.primitive_types:  # if primitive
                 if value == typ.__name__:
                     if value == "bytes":
-                        obj_dict["obj_value"] = obj_dict["obj_value"].to_bytes((obj_dict["obj_value"].bit_length() + 7)
-                                                                               // 8,
-                                                                               "big")
+                        obj_dict["obj_value"] = obj_dict["obj_value"].to_bytes((obj_dict["obj_value"].bit_length()  +
+                                                                                7) // 8, "big")
                     return typ(obj_dict["obj_value"])
 
         elif value in (item.__name__ for item in cls.non_primitive_types):  # if object is not a primitive_type
             for typ in cls.non_primitive_types:  # if non primitive
                 if value == typ.__name__:
-                    return typ(cls.post_loads(item) for item in obj_dict["obj_value"])
+                    objects = list()
+                    if not isinstance(obj_dict["obj_value"], tuple):
+                        objects.append(obj_dict["obj_value"])
+                    else:
+                        objects = obj_dict["obj_value"]
+                    return typ(cls.post_loads(item) for item in objects)
 
         elif value == "code":  # if code type
             code_dict = cls.post_loads(obj_dict["obj_value"])
