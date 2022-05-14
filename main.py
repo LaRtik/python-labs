@@ -3,18 +3,20 @@ import math
 import pickle
 import json
 
-from Serializers.JSONSimplePickler import JSONSerializer
-from Serializers.YAMLSimplePickler import YAMLSerializer
+from serializers.PicklerFactory import PicklerCreator
 
-def dump(obj: object):
-    return inspect.getmembers(obj)
+c = 42
+test_global = 42
 
 
 def hello():
     print("Hello World")
 
 
-test_global = 42
+def f(x):
+    a = 123
+    print(a)
+    return math.sin(x * a * c)
 
 
 class TestClass:
@@ -39,15 +41,10 @@ def test_prim():
     b = "hello"
     c = True
     d = 42.42
-    print(dump(a))
-    print(dump(b))
-    print(dump(c))
-    print(dump(d))
 
     print(type(a))
     s = "Hello World"
     l = [a, s]
-    print(dump(a))
     print(hello.__code__.co_name)
     print(pickle.dumps(a))
     print(pickle.loads(pickle.dumps(a)))
@@ -62,32 +59,23 @@ def test_primitives():
     a = 42
     b = 42.42
     c = True
-    d = "hello wrotebal"
-    formatted = JSONSerializer.pre_dumps(d)
-    unformatted = JSONSerializer.post_loads(formatted)
+    d = "ez 4 G2"
+    json_pickler = PicklerCreator.create("json")
+    formatted = json_pickler.pre_dumps(d)
+    unformatted = json_pickler.post_loads(formatted)
     print(unformatted)
 
+def test_butoma():
+    yaml_pickler = PicklerCreator.create("yaml")
+    formatted = yaml_pickler.dumps(f)
+    unformatted = yaml_pickler.loads(formatted)
+    print(unformatted(12))
 
-def sums(a, b):
-    return a + b
-
-
-def test_globals(a, b, c):
-    return math.sin(sums(a, b) * c)
-
-
-def test_func():
-    test = {
-        "name": "blablalba",
-        "surname:": "blaz",
-        "dict": (1, 2, 3)
-    }
-    formatted = JSONSerializer.pre_dumps(test_globals)
-    print(test_globals(1, 2, 3))
-    print(JSONSerializer.post_loads(formatted)(1, 2, 3))
 
 
 if __name__ == '__main__':
+    test_butoma()
+
     # formatted = JSONSerializer.dumps(test_prim)
     # #file = open("formatted.json", 'w')
     # #print(JSONSerializer.dump(file, test_prim))
@@ -97,6 +85,6 @@ if __name__ == '__main__':
     # loadedTOML = TOMLSerializer.loads(formattedTOML)
     # loadedTOML()
 
-    formattedYAML = YAMLSerializer.dumps(test_prim)
-    loadedYAML = YAMLSerializer.loads(formattedYAML)
-    loadedYAML()
+    # formattedYAML = YAMLSerializer.dumps(test_prim)
+    # loadedYAML = YAMLSerializer.loads(formattedYAML)
+    # loadedYAML()

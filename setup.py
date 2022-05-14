@@ -3,7 +3,7 @@ from setuptools import setup
 setup(
     name="serializer",
     version="0.5",
-    packages=["Serializers"],
+    packages=["serializers"],
     url="https://github.com/LaRtik/python-labs/tree/lab2",
     license="",
     author="Ilya Lazuk",

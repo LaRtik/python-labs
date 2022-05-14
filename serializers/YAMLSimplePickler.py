@@ -1,4 +1,4 @@
-from SimplePickler import SimplePickler
+from Serializers.SimplePickler import SimplePickler
 from yaml import load, dump, Loader
 
 class YAMLSerializer(SimplePickler):

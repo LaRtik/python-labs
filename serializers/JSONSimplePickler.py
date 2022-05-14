@@ -1,7 +1,7 @@
 import json
 import types
 
-from SimplePickler import SimplePickler
+from Serializers.SimplePickler import SimplePickler
 
 
 class JSONSerializer(SimplePickler):
