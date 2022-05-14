@@ -82,9 +82,17 @@ def test_butoma_file():
     print(unformatted(12))
 
 
+def test_simple_class():
+    yaml_pickler = PicklerCreator.create("yaml")
+    formatted = yaml_pickler.dumps(TestClass)
+    unformatted = yaml_pickler.loads(formatted)
+    unformatted.say_my_name(unformatted)
+
+
 if __name__ == '__main__':
     test_butoma_file()
-
+    test_butoma()
+    test_simple_class()
 
     # formatted = JSONSerializer.dumps(test_prim)
     # #file = open("formatted.json", 'w')
