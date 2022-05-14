@@ -65,16 +65,26 @@ def test_primitives():
     unformatted = json_pickler.post_loads(formatted)
     print(unformatted)
 
+
 def test_butoma():
     yaml_pickler = PicklerCreator.create("yaml")
     formatted = yaml_pickler.dumps(f)
     unformatted = yaml_pickler.loads(formatted)
     print(unformatted(12))
 
+def test_butoma_file():
+    json_pickler = PicklerCreator.create("json")
+    file = open("formatted.json", "w")
+    json_pickler.dump(file, f)
+    file.close()
+    file = open('formatted.json', "r")
+    unformatted = json_pickler.load(file)
+    print(unformatted(12))
 
 
 if __name__ == '__main__':
-    test_butoma()
+    test_butoma_file()
+
 
     # formatted = JSONSerializer.dumps(test_prim)
     # #file = open("formatted.json", 'w')
