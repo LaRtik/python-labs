@@ -1,0 +1,10 @@
+{% extends 'gshop/base.html' %}
+
+{% block content %}
+    {% for pr in products %}
+    <h2>{{ pr.name }}</h2>
+    <p>{{ pr.description }}</p>
+    <h4>Price {{ pr.price }}</h4>
+        <hr>
+    {% endfor %}
+{% endblock %}
