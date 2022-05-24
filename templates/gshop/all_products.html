@@ -5,6 +5,7 @@
     <h2>{{ pr.name }}</h2>
     <p>{{ pr.description }}</p>
     <h4>Price {{ pr.price }}</h4>
+        <p> <a href="{{ pr.get_absolute_url }}"> Подробнее</a></p>
         <hr>
     {% endfor %}
 {% endblock %}
