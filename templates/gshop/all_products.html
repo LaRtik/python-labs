@@ -1,6 +1,13 @@
 {% extends 'gshop/base.html' %}
 
 {% block content %}
+    <nav>
+    {% for cat in categories %}
+    <a href=" {{ cat.get_absolute_url }}"> {{ cat.name }}</a> |
+    {% endfor %}
+    </nav>
+
+
     {% for pr in products %}
     <h2>{{ pr.name }}</h2>
     <p>{{ pr.description }}</p>

@@ -28,8 +28,14 @@ def about(request):
     return render(request, 'gshop/about.html', context=context)
 
 
-def categories(request, catid):
-    return HttpResponse(f"<h1>category page {catid}</h1>")
+def category(request, category_id):
+    context = {
+        "menu": menu,
+        "title": Category.objects.get(pk=category_id),
+        "products": Product.objects.filter(category_id=category_id),
+        "categories": Category.objects.all(),
+    }
+    return render(request, 'gshop/all_products.html', context=context)
 
 
 def product(request, productid):
@@ -49,6 +55,8 @@ def all_products(request):
     context = {
         "menu": menu,
         "title": "Полный список товаров",
-        "products": [item for item in Product.objects.all()]
+        "products": [item for item in Product.objects.all()],
+        "categories": Category.objects.all(),
     }
+
     return render(request, 'gshop/all_products.html', context=context)
