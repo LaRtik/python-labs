@@ -4,9 +4,9 @@ from django.http import HttpResponse
 from .models import *
 
 # Create your views here.
-menu = [{"title": "О магазине", "url_name": "about"},
+menu = [{"title": "Home", "url_name": "home"},
+        {"title": "О магазине", "url_name": "about"},
         {"title": "Каталог товаров", "url_name": "all_products"},
-        {"title": "Войти", "url_name": "home"},  # todo: login
         {"title": "Корзина", "url_name": "home"},  # todo: cart
         {"title": "Обратная связь", "url_name": "home"},  # todo: contact
 ]
