@@ -7,12 +7,25 @@
     {% endfor %}
     </nav>
 
+<div class="container marketing">
+<div class="row">
 
-    {% for pr in products %}
+
+{% for pr in products %}
+    {% if pr.is_published %}
+    <div class="col-lg-4">
+        {% if pr.photo %}
+        <p> <img class="img-fluid img-thumbnail" alt="..." src="{{pr.photo.url}}"></p>
+        {% endif %}
     <h2>{{ pr.name }}</h2>
     <p>{{ pr.description }}</p>
     <h4>Price {{ pr.price }}</h4>
         <p> <a href="{{ pr.get_absolute_url }}"> Подробнее</a></p>
-        <hr>
+    </div>
+    {% endif %}
     {% endfor %}
+
+</div>
+</div>
+
 {% endblock %}
