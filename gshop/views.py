@@ -33,7 +33,7 @@ def category(request, category_id):
         "menu": menu,
         "title": Category.objects.get(pk=category_id),
         "products": Product.objects.filter(category_id=category_id),
-        "categories": Category.objects.all(),
+        "cat_selected": category_id,
     }
     return render(request, 'gshop/all_products.html', context=context)
 

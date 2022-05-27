@@ -1,11 +1,8 @@
 {% extends 'gshop/base.html' %}
+{% load gshop_tags %}
 
 {% block content %}
-    <nav>
-    {% for cat in categories %}
-    <a href=" {{ cat.get_absolute_url }}"> {{ cat.name }}</a> |
-    {% endfor %}
-    </nav>
+{% show_categories cat_selected %}
 
 <div class="container marketing">
 <div class="row">
@@ -15,7 +12,7 @@
     {% if pr.is_published %}
     <div class="col-lg-4">
         {% if pr.photo %}
-        <p> <img class="img-fluid img-thumbnail" alt="..." src="{{pr.photo.url}}"></p>
+        <p> <img class="img-fluid img-thumbnail bg-dark border-dark" alt="..." src="{{pr.photo.url}}"></p>
         {% endif %}
     <h2>{{ pr.name }}</h2>
     <p>{{ pr.description }}</p>
