@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
 from .models import *
@@ -28,21 +28,22 @@ def about(request):
     return render(request, 'gshop/about.html', context=context)
 
 
-def category(request, category_id):
+def category(request, category_slug):
+    cat = Category.objects.get(slug=category_slug)
     context = {
         "menu": menu,
-        "title": Category.objects.get(pk=category_id),
-        "products": Product.objects.filter(category_id=category_id),
-        "cat_selected": category_id,
+        "title": cat,
+        "products": Product.objects.filter(category__slug=category_slug),
+        "cat_selected": cat.id,
     }
     return render(request, 'gshop/all_products.html', context=context)
 
 
-def product(request, productid):
+def product(request, product_slug):
     try:
-        item = Product.objects.get(pk=productid)
+        item = Product.objects.get(slug=product_slug)
     except models.ObjectDoesNotExist:
-        return all_products(request)
+        return redirect(all_products)
     context = {
         "menu": menu,
         "title": item.name,

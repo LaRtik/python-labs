@@ -1,3 +1,5 @@
+from random import random
+
 from django.db import models
 from django.urls import reverse
 #from django.utils.translation import gettext as translated
@@ -5,18 +7,19 @@ from django.urls import reverse
 
 class Product(models.Model):
     name = models.CharField(max_length=255, verbose_name="Наименование продукта")
+    slug = models.SlugField(max_length=255, db_index=True, verbose_name="URL", unique=True)
     description = models.TextField(verbose_name="Описание продукта")
     price = models.FloatField(verbose_name="Цена")
-    photo = models.ImageField(upload_to=f"photos/", null=True, verbose_name="Фото")
+    photo = models.ImageField(upload_to=f"photos/", verbose_name="Фото")
     time_create = models.DateTimeField(auto_now_add=True, verbose_name="Время создания")
-    is_published = models.BooleanField(default=True, verbose_name="В наличии")
-    category = models.ForeignKey("Category", on_delete=models.PROTECT, null=True, verbose_name="Категория")
+    is_available = models.BooleanField(default=True, verbose_name="В наличии")
+    category = models.ForeignKey("Category", on_delete=models.PROTECT, verbose_name="Категория")
 
     def __str__(self):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('product', kwargs={"productid": self.pk})
+        return reverse('product', kwargs={"product_slug": self.slug})
 
     class Meta:
         verbose_name = "Продукты"
@@ -26,12 +29,13 @@ class Product(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=180, db_index=True, verbose_name="Тип продукта")
+    slug = models.SlugField(max_length=255, db_index=True, verbose_name="URL", unique=True)
 
     def __str__(self):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('category', kwargs={"category_id": self.id})
+        return reverse('category', kwargs={"category_slug": self.slug})
 
     class Meta:
         verbose_name = "Тип продукта"

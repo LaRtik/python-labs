@@ -1,6 +1,6 @@
 <nav>
     {% for cat in categories %}
-        {% if cat.pk is cat_selected %}
+        {% if cat.id is cat_selected %}
         <b class="selected mx-3">{{ cat.name }}</b>
         {% else %}
     <a href=" {{ cat.get_absolute_url }}" class="mx-3"> {{ cat.name }}</a>

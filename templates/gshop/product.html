@@ -2,6 +2,9 @@
 
 {% block content %}
 <h1> {{ product.name }}</h1>
+    {% if product.photo %}
+        <p> <img class="img-fluid img-thumbnail bg-dark border-dark" alt="..." src="{{product.photo.url}}"></p>
+        {% endif %}
     <h2> Price: {{ product.price }}</h2>
     <h2> Description: {{ product.description }}</h2>
     <h2> Category: {{ product.category }}</h2>

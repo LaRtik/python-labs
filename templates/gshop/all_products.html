@@ -9,7 +9,7 @@
 
 
 {% for pr in products %}
-    {% if pr.is_published %}
+    {% if pr.is_available %}
     <div class="col-lg-4">
         {% if pr.photo %}
         <p> <img class="img-fluid img-thumbnail bg-dark border-dark" alt="..." src="{{pr.photo.url}}"></p>
