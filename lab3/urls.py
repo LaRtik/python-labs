@@ -23,7 +23,8 @@ from lab3 import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('gshop.urls'))
+    path('cart/', include('cart.urls')),
+    path('', include('gshop.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:

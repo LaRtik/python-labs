@@ -6,53 +6,43 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView
 from django.http import HttpResponse
 
+from cart.forms import CartAddProductForm
 from .forms import RegisterUserForm, LoginUserForm
 from .models import *
 
-# Create your views here.
-menu = [{"title": "Home", "url_name": "home"},
-        {"title": "О магазине", "url_name": "about"},
-        {"title": "Каталог товаров", "url_name": "all_products"},
-        {"title": "Корзина", "url_name": "home"},  # todo: cart
-        {"title": "Обратная связь", "url_name": "home"},  # todo: contact
-        ]
 
+# Create your views here.
 
 class AllProducts(ListView):
     model = Product
+    extra_context = {"title": "Продукция"}
 
 
 # class HomePage()
 
 def index(request):
     context = {
-        "menu": menu,
-        "title": "Добро пожаловать!"
+        "title": "yummY!"
     }
     return render(request, 'gshop/index.html', context=context)
 
 
 def about(request):
     context = {
-        "menu": menu,
         "title": "О магазине",
     }
     return render(request, 'gshop/about.html', context=context)
 
 
-# def category(request, category_slug):
-#     cat = Category.objects.get(slug=category_slug)
-#     context = {
-#         "menu": menu,
-#         "title": cat,
-#         "products": Product.objects.filter(category__slug=category_slug),
-#         "cat_selected": cat.id,
-#     }
-#     return render(request, 'gshop/product_list.html', context=context)
-
-
 class CatProducts(ListView):
     model = Product
+    allow_empty = False
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['cat_selected'] = context['object_list'][0].category_id
+        context['title'] = str(context['object_list'][0].category)
+        return context
 
     def get_queryset(self):
         return Product.objects.filter(category__slug=self.kwargs['category_slug'], is_available=True)
@@ -61,6 +51,11 @@ class CatProducts(ListView):
 class UnoProduct(DetailView):
     model = Product
     slug_url_kwarg = 'product_slug'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['cart_form'] = CartAddProductForm()
+        return context
 
     def get_queryset(self):
         return Product.objects.filter(category__slug=self.kwargs['category_slug'],

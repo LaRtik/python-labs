@@ -5,7 +5,12 @@
     {% if product.photo %}
         <p> <img class="img-fluid img-thumbnail bg-dark border-dark" alt="..." src="{{product.photo.url}}"></p>
         {% endif %}
-    <h2> Price: {{ product.price }}</h2>
-    <h2> Description: {{ product.description }}</h2>
-    <h2> Category: {{ product.category }}</h2>
+    <h2> {{ product.price }}</h2>
+    <h3> {{ product.description }}</h3>
+    <a><span class="badge bg-secondary">{{ pr.category }}</span></a>
+    <form action="{% url "cart_add" product.id %}" method="post">
+    {{ cart_form }}
+    {% csrf_token %}
+    <input type="submit" class="btn btn-outline-success" value="Add to cart">
+    </form>
 {% endblock %}
