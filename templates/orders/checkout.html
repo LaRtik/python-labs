@@ -1,0 +1,22 @@
+{% extends "gshop/base.html" %}
+
+{% block content %}
+    <h1>Оформление заказа</h1>
+    <div class="order-info" >
+        <h3>Ваш заказ</h3>
+        <ul>
+            {% for item in cart %}
+                <li>
+                    {{ item.quantity }}x {{ item.product.name }}
+                    <span>${{ item.total_price }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+        <p>Всего: ${{ cart.get_total_price }}</p>
+    </div>
+    <form action="." method="post" class="order-form m-auto my-3">
+        <table class>{{ form.as_table }}</table>
+        <p><input type="submit" class="btn btn-light my-3" value="Разместить заказ"></p>
+        {% csrf_token %}
+    </form>
+{% endblock %}

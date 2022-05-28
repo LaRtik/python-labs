@@ -1,8 +1,6 @@
 {% extends "gshop/base.html" %}
 {% load static %}
-{% block title %}
-    Корзина
-{% endblock %}
+
 {% block content %}
     <h1 class="h-auto">Корзина</h1>
     <table class="cart h-100">
@@ -42,6 +40,6 @@
     </table>
     <p class="text-right">
         <a href="{% url "all_products" %}" type="button" class="btn btn-light">Continue shopping</a>
-        <a href="#" type="button" class="btn btn-success">Checkout</a>
+        <a href="{% url 'checkout' %}" type="button" class="btn btn-success">Checkout</a>
     </p>
 {% endblock %}
