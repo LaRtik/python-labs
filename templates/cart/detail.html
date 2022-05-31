@@ -3,6 +3,9 @@
 
 {% block content %}
     <h1 class="h-auto">Корзина</h1>
+    {% if cart.get_total_price == 0 %}
+    <h4>Ваша корзина пуста =(</h4>
+    {% else %}
     <table class="cart h-100">
         <thead>
         <tr>
@@ -42,4 +45,5 @@
         <a href="{% url "all_products" %}" type="button" class="btn btn-light">Continue shopping</a>
         <a href="{% url 'checkout' %}" type="button" class="btn btn-success">Checkout</a>
     </p>
+    {% endif %}
 {% endblock %}
