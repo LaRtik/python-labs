@@ -5,11 +5,12 @@ from django.core.validators import RegexValidator
 
 
 class RegisterUserForm(UserCreationForm):
-    first_name = forms.CharField(label='Иия', widget=forms.TextInput(attrs={'class': 'form-input'}))
+    username = forms.CharField(label="Имя пользователя", widget=forms.TextInput(attrs={'class': 'form-input'}))
+    first_name = forms.CharField(label='Имя', widget=forms.TextInput(attrs={'class': 'form-input'}))
     last_name = forms.CharField(label='Фамилия', widget=forms.TextInput(attrs={'class': 'form-input'}))
     phone_regex = RegexValidator(regex="\+375[0-9]{9}", message="Введите номер телефона в формате +375000000000")
     phone_number = forms.CharField(label='Номер телефона', validators=[phone_regex],
-                                    max_length=13, widget=forms.TextInput(attrs={'class':'form-input'}))
+                                    max_length=13, widget=forms.TextInput(attrs={'class': 'form-input'}))
     email = forms.EmailField(label="Почта", widget=forms.EmailInput(attrs={'class': 'form-input'}))
     password1 = forms.CharField(label="Пароль", widget=forms.PasswordInput(attrs={'class': 'form-input'}))
 

@@ -1,3 +1,4 @@
+import logging
 from decimal import Decimal
 from django.conf import settings
 from gshop.models import Product
@@ -21,6 +22,7 @@ class Cart(object):
             self.cart[product_id]['quantity'] = quantity
         else:
             self.cart[product_id]['quantity'] += quantity
+        logging.critical(f"Added {product} [{quantity}] to cart")
         self.save()
 
     def save(self):

@@ -9,13 +9,16 @@
 
 
 {% for pr in object_list %}
-    <div class="col-md-3">
+    <div class="col-md-3" style="display: flex; flex-direction: column; justify-content:
+    space-between;">
         {% if pr.photo %}
-        <p> <img class="img-fluid img-thumbnail bg-dark border-dark" alt="..." src="{{pr.photo.url}}"></p>
+        <p> <img class="img-fluid img-thumbnail bg-dark border-dark card-img-top" alt="..." src="{{pr.photo.url}}"></p>
         {% endif %}
     <h2>{{ pr.name }}</h2>
     <p>{{ pr.description }}</p>
-        <a href="{{ pr.get_absolute_url }}"><h1><span class="badge bg-secondary">{{ pr.price }}</span></h1> </a>
+        <a href="{{ pr.get_absolute_url }}" style="margin-top: auto;"><h1><span class="badge bg-secondary"
+        >{{ pr.price }}</span></h1>
+        </a>
     </div>
     {% endfor %}
 

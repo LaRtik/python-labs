@@ -8,7 +8,7 @@ from django.http import HttpResponse
 
 from cart.forms import CartAddProductForm
 from .forms import RegisterUserForm, LoginUserForm
-from .models import *
+from .models import Product
 
 
 # Create your views here.
@@ -62,29 +62,6 @@ class UnoProduct(DetailView):
                                       slug=self.kwargs['product_slug'], is_available=True)
 
 
-# def product(request, product_slug):
-#     try:
-#         item = Product.objects.get(slug=product_slug)
-#     except models.ObjectDoesNotExist:
-#         return redirect('all_products')
-#     context = {
-#         "menu": menu,
-#         "title": item.name,
-#         "product": item
-#     }
-#     return render(request, 'gshop/product_detail.html', context=context)
-
-# def all_products(request):
-#     context = {
-#         "menu": menu,
-#         "title": "Полный список товаров",
-#         "products": [item for item in Product.objects.all()],
-#         "categories": Category.objects.all(),
-#     }
-#
-#     return render(request, 'gshop/product_list.html', context=context)
-
-
 class RegisterUser(CreateView):
     form_class = RegisterUserForm
     template_name = 'gshop/register.html'
@@ -94,6 +71,7 @@ class RegisterUser(CreateView):
         user = form.save()
         login(self.request, user)
         return redirect('home')
+
 
 
 class LoginUser(LoginView):
