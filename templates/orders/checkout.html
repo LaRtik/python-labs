@@ -1,13 +1,13 @@
 {% extends "gshop/base.html" %}
 
 
-    <div class="order-info">
+<div class="order-info">
 
-    </div>
+</div>
 
-    {% block content %}
+{% block content %}
 
-        <section class="w-100 p-4 d-flex flex-column align-items-center justify-content-center pb-4 text-white">
+    <section class="w-100 p-4 d-flex flex-column align-items-center justify-content-center pb-4 text-white">
         <h1>Оформление заказа</h1>
         <ul>
             {% for item in cart %}
@@ -18,21 +18,21 @@
             {% endfor %}
         </ul>
         <h1 class="badge">Всего: {{ cart.get_total_price }}</h1>
-            <form method="post" style="width: 22rem;">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <!-- Submit button -->
-                <div class="text-center">
-                    <button type="submit" class="btn align-content-center btn-primary btn-block mb-4">Оформить заказ
-                    </button>
-                </div>
-                <!-- Register buttons -->
-            </form>
-        </section>
+        <form method="post" style="width: 22rem;">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <!-- Submit button -->
+            <div class="text-center">
+                <button type="submit" class="btn align-content-center btn-primary btn-block mb-4">Оформить заказ
+                </button>
+            </div>
+            <!-- Register buttons -->
+        </form>
+    </section>
 
 
 
-    {% endblock %}
+{% endblock %}
 <form action="." method="post" class="order-form m-auto my-3">
     <table class>{{ form.as_table }}</table>
     <p><input type="submit" class="btn btn-light my-3" value="Разместить заказ"></p>
