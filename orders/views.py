@@ -9,7 +9,8 @@ from cart.cart import Cart
 def order_create(request):
     cart = Cart(request)
     if request.method == 'POST':
-        form = OrderCreateForm(request.POST)
+        form = OrderCreateForm(request.POST, initial={"first_name": request.user.first_name, "last_name":
+            request.user.last_name})
         if form.is_valid():
             order = form.save()
             for item in cart:
@@ -23,4 +24,4 @@ def order_create(request):
     else:
         form = OrderCreateForm
     return render(request, 'orders/checkout.html',
-                  {'cart': cart, 'form': form})
+                  {'cart': cart, 'form': form, 'user': request.user})

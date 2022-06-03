@@ -55,6 +55,7 @@ class UnoProduct(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['cart_form'] = CartAddProductForm()
+        context['title'] = str(context['object'].name)
         return context
 
     def get_queryset(self):
@@ -66,17 +67,20 @@ class RegisterUser(CreateView):
     form_class = RegisterUserForm
     template_name = 'gshop/register.html'
     success_url = reverse_lazy('login')
+    extra_context = {"title": "Регистрация"}
 
     def form_valid(self, form):
         user = form.save()
         login(self.request, user)
-        return redirect('home')
+        return redirect('all_products')
 
 
 
 class LoginUser(LoginView):
     form_class = LoginUserForm
     template_name = 'gshop/login.html'
+    extra_context = {"title": "Регистрация"}
+
 
 
 def logout_user(request):
