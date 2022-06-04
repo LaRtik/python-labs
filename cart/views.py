@@ -31,4 +31,4 @@ def cart_detail(request):
     if not request.user.is_authenticated:
         return redirect('login')
     cart = Cart(request)
-    return render(request, 'cart/detail.html', {'cart': cart})
+    return render(request, 'cart/detail.html', {'cart': cart, "title": "Корзина"})
