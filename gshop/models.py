@@ -2,7 +2,9 @@ from random import random
 
 from django.db import models
 from django.urls import reverse
-#from django.utils.translation import gettext as translated
+
+
+# from django.utils.translation import gettext as translated
 
 
 class Product(models.Model):
@@ -42,4 +44,18 @@ class Category(models.Model):
         verbose_name_plural = "Типы продуктов"
         ordering = ['name']
 
+
+class Promotion(models.Model):
+    title = models.CharField(max_length=180, verbose_name="Название акции")
+    text = models.TextField(verbose_name="Текст")
+    time_create = models.DateTimeField(auto_now_add=True, verbose_name="Время публикации")
+    send_now = models.BooleanField(default=True, verbose_name="Отправить email всем покупателям")
+
+    class Meta:
+        verbose_name = "Специальное предложение"
+        verbose_name_plural = "Специальные предложения"
+        ordering = ['time_create']
+
 # Create your models here.
+
+# mail password: 1JQ4nSiorAGojyHRpKzv

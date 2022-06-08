@@ -150,3 +150,12 @@ MEDIA_URL = 'media/'
 LOGIN_REDIRECT_URL = '/products'
 
 CART_SESSION_ID = 'cart'
+
+# Email settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.mail.ru'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'martin_help@mail.ru'
+EMAIL_HOST_PASSWORD = 'DMekm3aPhUo6attO27x4'
+EMAIL_USE_SSL = True
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
