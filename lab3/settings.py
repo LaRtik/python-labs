@@ -26,7 +26,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-d2jli124$s_d+p_lz@vu)
 #DEBUG = True
 DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
-ALLOWED_HOSTS = ["https://afternoon-wave-89508.herokuapp.com/"]
+ALLOWED_HOSTS = ['afternoon-wave-89508.herokuapp.com']
 
 # Application definition
 
