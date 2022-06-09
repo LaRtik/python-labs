@@ -1,15 +1,14 @@
 from django.shortcuts import render, redirect
-from django.views.generic import CreateView
 
-from .models import OrderItem
-from .forms import OrderCreateForm
 from cart.cart import Cart
+from .forms import OrderCreateForm
+from .models import OrderItem
 
 
 def order_create(request):
     cart = Cart(request)
     default_data = {"first_name": request.user.first_name, "last_name":
-            request.user.last_name, "address": "Ваш адрес"}
+        request.user.last_name, "address": "Ваш адрес"}
 
     if request.method == 'POST':
         form = OrderCreateForm(request.POST)
@@ -28,4 +27,4 @@ def order_create(request):
     else:
         form = OrderCreateForm(default_data)
     return render(request, 'orders/checkout.html',
-                  {'cart': cart, 'form': form, 'user': request.user, "title":"Оформление заказа"})
+                  {'cart': cart, 'form': form, 'user': request.user, "title": "Оформление заказа"})

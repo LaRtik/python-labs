@@ -1,9 +1,5 @@
-
-from xml.etree.ElementInclude import include
-
-from django.contrib import admin
-from django.urls import path, include
 from django.conf.urls.static import static
+from django.urls import path
 
 from lab3 import settings
 from orders.views import order_create

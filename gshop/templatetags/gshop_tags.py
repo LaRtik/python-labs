@@ -1,5 +1,6 @@
 from django import template
-from gshop.models import Product, Category
+
+from gshop.models import Category
 
 register = template.Library()
 

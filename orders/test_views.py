@@ -1,8 +1,9 @@
 import rest_framework.status as status
-from rest_framework.test import APITestCase
-from django.urls import resolve, reverse_lazy, reverse
-from gshop.models import Product, Category
 from django.contrib.auth.models import User
+from django.urls import reverse_lazy
+from rest_framework.test import APITestCase
+
+from gshop.models import Product, Category
 
 
 class TestOrders(APITestCase):

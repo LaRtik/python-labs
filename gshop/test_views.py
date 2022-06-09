@@ -1,8 +1,8 @@
 
 import rest_framework.status as status
+from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 from rest_framework.test import APITestCase
-from django.contrib.auth.models import User
 
 from .models import Product, Category
 

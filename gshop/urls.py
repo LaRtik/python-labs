@@ -1,4 +1,3 @@
-from django.contrib import admin
 from django.urls import path
 
 from .views import index, about, AllProducts, RegisterUser, CatProducts, UnoProduct, LoginUser, logout_user

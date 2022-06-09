@@ -1,6 +1,8 @@
 import logging
 from decimal import Decimal
+
 from django.conf import settings
+
 from gshop.models import Product
 
 
